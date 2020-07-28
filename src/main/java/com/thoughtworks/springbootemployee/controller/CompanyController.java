@@ -11,19 +11,6 @@ import java.util.List;
 @RequestMapping("/companies")
 public class CompanyController {
 
-    @GetMapping(params = {"page", "pageSize"})
-    public List<Company> getCompaniesByPageAndPageSize(int page, int pageSize) {
-        List<Company> companies = new ArrayList<>();
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(4, "alibaba1", 20, "male", 6000));
-        employees.add(new Employee(11, "tengxun2", 19, "female", 7000));
-        employees.add(new Employee(6, "alibaba3", 19, "male", 8000));
-        for (int i = 0; i < 5; i++) {
-            companies.add(new Company(i, "alibaba", 200, employees));
-        }
-        return companies;
-    }
-
     @GetMapping
     public List<Company> getAllCompanies() {
         List<Company> companies = new ArrayList<>();
@@ -31,7 +18,7 @@ public class CompanyController {
         employees.add(new Employee(4, "alibaba1", 20, "male", 6000));
         employees.add(new Employee(11, "tengxun2", 19, "female", 7000));
         employees.add(new Employee(6, "alibaba3", 19, "male", 8000));
-        companies.add(new Company(1, "alibaba", 200, employees));
+        companies.add(new Company(1, "alibaba", 3, employees));
         return companies;
     }
 
@@ -41,7 +28,7 @@ public class CompanyController {
         employees.add(new Employee(4, "alibaba1", 20, "male", 6000));
         employees.add(new Employee(11, "tengxun2", 19, "female", 7000));
         employees.add(new Employee(6, "alibaba3", 19, "male", 8000));
-        return new Company(id, "alibaba", 200, employees);
+        return new Company(id, "alibaba", 3, employees);
     }
 
     @GetMapping("/{id}/employees")
@@ -54,6 +41,22 @@ public class CompanyController {
         company.setEmployees(employees);
         return company.getEmployees();
     }
+
+    @GetMapping(params = {"page", "pageSize"})
+    public List<Company> getCompaniesByPageAndPageSize(int page, int pageSize) {
+        List<Company> companies = new ArrayList<>();
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(4, "alibaba1", 20, "male", 6000));
+        employees.add(new Employee(11, "tengxun2", 19, "female", 7000));
+        employees.add(new Employee(6, "alibaba3", 19, "male", 8000));
+        int beginNumber = (page - 1) * pageSize;
+        int endNumber = page * pageSize;
+        for (int i = beginNumber; i < endNumber; i++) {
+            companies.add(new Company(i, "alibaba", 3, employees));
+        }
+        return companies;
+    }
+
 
     @PostMapping
     public Company addCompany(@RequestBody Company company) {
