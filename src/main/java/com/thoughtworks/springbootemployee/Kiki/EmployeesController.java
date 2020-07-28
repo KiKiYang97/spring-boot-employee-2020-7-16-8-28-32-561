@@ -1,10 +1,7 @@
 package com.thoughtworks.springbootemployee.Kiki;
 
 import com.thoughtworks.springbootemployee.model.Employee;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,5 +65,9 @@ public class EmployeesController {
         return collect;
     }
 
-
+    @PostMapping
+    public Employee addEmployee(@RequestBody Employee employee){
+        return new Employee(employee.getId(), employee.getName(), employee.getAge(),
+                employee.getGender(), employee.getSalary());
+    }
 }
