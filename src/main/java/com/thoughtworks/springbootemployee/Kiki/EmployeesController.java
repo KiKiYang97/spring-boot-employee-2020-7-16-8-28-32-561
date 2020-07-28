@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -78,5 +79,18 @@ public class EmployeesController {
         oldEmployee.setAge(newEmployee.getAge());
         oldEmployee.setGender(newEmployee.getGender());
         return oldEmployee;
+    }
+
+    @DeleteMapping("/{id}")
+    public List<Employee> deleteEmployee(@PathVariable int id){
+        List<Employee> employees = new ArrayList<>();
+        employees.add(new Employee(0, "alibaba3", 19, "male", 8000));
+        employees.add(new Employee(1, "Kiki", 18, "female", 1000d));
+        employees.add(new Employee(2, "Eason", 25, "male", 2000d));
+        employees.stream()
+                .filter(employee -> employee.getId() == id)
+                .findFirst()
+                .ifPresent(employees::remove);
+         return employees;
     }
 }
