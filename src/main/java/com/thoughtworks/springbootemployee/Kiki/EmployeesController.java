@@ -59,11 +59,10 @@ public class EmployeesController {
         employees.add(new Employee(4, "alibaba1", 20, "male", 6000));
         employees.add(new Employee(5, "tengxun2", 19, "female", 7000));
 
-        final List<Employee> collect = employees
+        return employees
                 .stream()
                 .filter(employee -> employee.getGender().equals(gender))
                 .collect(Collectors.toList());
-        return collect;
     }
 
     @PostMapping
