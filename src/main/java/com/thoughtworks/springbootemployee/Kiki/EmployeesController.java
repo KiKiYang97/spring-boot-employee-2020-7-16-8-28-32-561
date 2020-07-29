@@ -28,18 +28,15 @@ public class EmployeesController {
 
     @GetMapping("/{id}")
     public Employee getEmployeeById(@PathVariable int id) {
-        return new Employee(id, "Kiki", 18, "female", 1000d);
+        List<Employee> employees = employeeService.getAllEmployees();
+        return employees.stream()
+                .filter(employee -> employee.getId() == id)
+                .findFirst().orElse(null);
     }
 
     @GetMapping(params = {"page", "pageSize"})
     public List<Employee> getEmployeesByPageAndPageSize(int page, int pageSize) {
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(0, "alibaba3", 19, "male", 8000));
-        employees.add(new Employee(1, "Kiki", 18, "female", 1000d));
-        employees.add(new Employee(2, "Eason", 25, "male", 2000d));
-        employees.add(new Employee(3, "Eva", 18, "female", 3000d));
-        employees.add(new Employee(4, "alibaba1", 20, "male", 6000));
-        employees.add(new Employee(5, "tengxun2", 19, "female", 7000));
+        List<Employee> employees = employeeService.getAllEmployees();
         int beginNumber = (page - 1) * pageSize;
         int endNumber = page * pageSize;
         List<Employee> employeesResult = new ArrayList<>();
@@ -51,13 +48,7 @@ public class EmployeesController {
 
     @GetMapping(params = {"gender"})
     public List<Employee> getEmployeesByGender(String gender) {
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(0, "alibaba3", 19, "male", 8000));
-        employees.add(new Employee(1, "Kiki", 18, "female", 1000d));
-        employees.add(new Employee(2, "Eason", 25, "male", 2000d));
-        employees.add(new Employee(3, "Eva", 18, "female", 3000d));
-        employees.add(new Employee(4, "alibaba1", 20, "male", 6000));
-        employees.add(new Employee(5, "tengxun2", 19, "female", 7000));
+        List<Employee> employees = employeeService.getAllEmployees();
 
         return employees
                 .stream()
@@ -73,7 +64,10 @@ public class EmployeesController {
 
     @PutMapping("/{id}")
     public Employee updateEmployee(@PathVariable int id,@RequestBody Employee newEmployee){
-        Employee oldEmployee = new Employee(id);
+        List<Employee> employees = employeeService.getAllEmployees();
+        Employee oldEmployee = employees.stream()
+                .filter(employee -> employee.getId() == id)
+                .findFirst().orElse(null);
         oldEmployee.setName(newEmployee.getName());
         oldEmployee.setAge(newEmployee.getAge());
         oldEmployee.setGender(newEmployee.getGender());
@@ -82,10 +76,7 @@ public class EmployeesController {
 
     @DeleteMapping("/{id}")
     public List<Employee> deleteEmployee(@PathVariable int id){
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(0, "alibaba3", 19, "male", 8000));
-        employees.add(new Employee(1, "Kiki", 18, "female", 1000d));
-        employees.add(new Employee(2, "Eason", 25, "male", 2000d));
+        List<Employee> employees = employeeService.getAllEmployees();
         employees.stream()
                 .filter(employee -> employee.getId() == id)
                 .findFirst()
