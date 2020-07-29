@@ -1,6 +1,8 @@
 package com.thoughtworks.springbootemployee.Kiki;
 
 import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -17,13 +19,11 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/Kiki/employees")
 public class EmployeesController {
+    @Autowired
+    private EmployeeService employeeService;
     @GetMapping
     public List<Employee> getAllEmployees() {
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(1, "Kiki", 18, "female", 1000d));
-        employees.add(new Employee(2, "Eason", 25, "male", 2000d));
-        employees.add(new Employee(3, "Eva", 18, "female", 3000d));
-        return employees;
+        return employeeService.getAllEmployees();
     }
 
     @GetMapping("/{id}")
