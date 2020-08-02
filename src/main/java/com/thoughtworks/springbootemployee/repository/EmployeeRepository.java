@@ -1,5 +1,9 @@
 package com.thoughtworks.springbootemployee.repository;
 
+import com.thoughtworks.springbootemployee.model.Employee;
+
+import java.util.List;
+
 /**
  * @Author Dunka
  * @Description //TODO
@@ -7,7 +11,7 @@ package com.thoughtworks.springbootemployee.repository;
  * @ClassName EmployeeRepository
  */
 public class EmployeeRepository {
-    public Object findAll() {
+    public List<Employee> findAll() {
         return null;
     }
 }
