@@ -19,7 +19,7 @@ public class Company {
     private Integer id;
     private String companyName;
     private Integer employeeNumber;
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "companyId")
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, mappedBy = "companyId")
     private List<Employee> employees;
 
     public Company() {
