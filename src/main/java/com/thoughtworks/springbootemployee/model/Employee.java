@@ -1,7 +1,12 @@
 package com.thoughtworks.springbootemployee.model;
 
 import lombok.Data;
-
+/**
+ * @Author Dunka
+ * @Description Employee
+ * @Date 20:10   2020/8/2
+ * @ClassName Employee
+ */
 @Data
 public class Employee {
     private Integer id;

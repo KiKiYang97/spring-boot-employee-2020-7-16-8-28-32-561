@@ -2,7 +2,12 @@ package com.thoughtworks.springbootemployee.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+/**
+ * @Author Dunka
+ * @Description CompanyController
+ * @Date 23:17   2020/7/28
+ * @ClassName CompanyController
+ */
 @RestController
 @RequestMapping("/companies")
 public class CompanyController {
