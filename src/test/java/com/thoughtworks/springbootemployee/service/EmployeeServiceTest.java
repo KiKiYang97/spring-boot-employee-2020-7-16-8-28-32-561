@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
@@ -75,4 +76,21 @@ public class EmployeeServiceTest {
 //        then
         assertIterableEquals(employees, pageEmployees);
     }
+
+    @Test
+    void should_return_specify_gender_employees_when_get_employees_given_gender() {
+//        given
+        String gender = "male";
+        List<Employee> filterEmployees = employees
+                .stream()
+                .filter(employee -> employee.getGender().equals(gender))
+                .collect(Collectors.toList());
+        given(employeeRepository.findEmployeesByGender(gender)).willReturn(filterEmployees);
+//        when
+        List<Employee> maleEmployees = employeeService.getEmployeeByGender(gender);
+//        then
+        assertIterableEquals(filterEmployees, maleEmployees);
+    }
+
+
 }

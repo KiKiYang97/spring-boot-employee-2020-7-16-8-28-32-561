@@ -22,4 +22,8 @@ public class EmployeeRepository {
     public List<Employee> getEmployeeByPageAndPageSize(int page, int pageSize) {
         return null;
     }
+
+    public List<Employee> findEmployeesByGender(String gender) {
+        return null;
+    }
 }
