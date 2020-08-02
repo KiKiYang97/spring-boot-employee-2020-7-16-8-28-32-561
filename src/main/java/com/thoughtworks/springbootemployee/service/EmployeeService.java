@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
@@ -32,5 +33,15 @@ public class EmployeeService {
 
     public List<Employee> getEmployeeByGender(String gender) {
         return employeeRepository.findEmployeesByGender(gender);
+    }
+
+    public Employee addEmployee(Employee employee) {
+        return employeeRepository.save(employee);
+    }
+
+    public Employee updateEmployee(Integer id, Employee employeeInfo) {
+        Employee employee = employeeRepository.findById(id);
+        BeanUtils.copyProperties(employee, employeeInfo);
+        return employeeRepository.save(employeeInfo);
     }
 }

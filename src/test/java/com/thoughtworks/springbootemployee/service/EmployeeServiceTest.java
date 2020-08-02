@@ -28,6 +28,7 @@ public class EmployeeServiceTest {
     private static EmployeeService employeeService;
     private List<Employee> employees;
     private Employee employee;
+    private Employee newEmployee;
 
     @BeforeAll
     static void init() {
@@ -38,7 +39,7 @@ public class EmployeeServiceTest {
     @BeforeEach
     void initData() {
         employees = new ArrayList<>();
-        Employee newEmployee = new Employee(0, "kiki", 18, "female", 99999d);
+        newEmployee = new Employee(0, "kiki", 18, "female", 99999d);
         employee = new Employee(1, "kiki", 80, "male", 100d);
         employees.add(employee);
         employees.add(newEmployee);
@@ -92,5 +93,26 @@ public class EmployeeServiceTest {
         assertIterableEquals(filterEmployees, maleEmployees);
     }
 
+    @Test
+    void should_return_new_employee_when_add_employee_given_employee() {
+//        given
+        given(employeeRepository.save(employee)).willReturn(employee);
+//        when
+        Employee createdEmployee = employeeService.addEmployee(employee);
+//        then
+        assertEquals(employee, createdEmployee);
+    }
 
+    @Test
+    void should_return_modify_employee_when_update_employee_given_update_employee() {
+//        given
+        int employeeID = 1;
+        given(employeeRepository.save(employee)).willReturn(newEmployee);
+        given(employeeRepository.findById(employeeID)).willReturn(employee);
+//        when
+        Employee updateEmployee = employeeService.updateEmployee(employeeID, newEmployee);
+//        then
+//        verify(employeeRepository).save(updateEmployee);
+        assertEquals(newEmployee, updateEmployee);
+    }
 }

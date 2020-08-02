@@ -26,4 +26,8 @@ public class EmployeeRepository {
     public List<Employee> findEmployeesByGender(String gender) {
         return null;
     }
+
+    public Employee save(Employee employee) {
+        return null;
+    }
 }
