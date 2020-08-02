@@ -2,6 +2,7 @@ package com.thoughtworks.springbootemployee.service;
 
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
+import com.thoughtworks.springbootemployee.util.ResponseMsg;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,14 +48,13 @@ public class EmployeeService {
         return employeeRepository.save(employeeInfo);
     }
 
-    public Employee deleteEmployeeByemployeeID(Integer employeeID) {
-        Employee employee = employeeRepository.findById(employeeID).orElse(null);
-//        employeeRepository.deleteById(employeeID);
-//        if (employeeRepository.findById(employeeID).orElse(null)==null){
-//            return employee;
-//        }else{
-//
-//        }
-        return employee;
+    public String deleteEmployeeByemployeeID(Integer employeeID) {
+        employeeRepository.deleteById(employeeID);
+        if (employeeRepository.findById(employeeID) == null) {
+            return ResponseMsg.SUCCESS_MESSAGE;
+        } else {
+            return ResponseMsg.FAIL_MESSAGE;
+        }
+
     }
 }

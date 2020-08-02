@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
+import com.thoughtworks.springbootemployee.util.ResponseMsg;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -48,10 +49,12 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
-    public Company deleteCompanyByCompanyID(Integer companyID) {
-//        final Company company = companyRepository.findById(companyID);
-//        companyRepository.deleteById(companyID);
-//        return company;
-        return null;
+    public String deleteCompanyByCompanyID(Integer companyID) {
+        companyRepository.deleteById(companyID);
+        if (companyRepository.findById(companyID) == null) {
+            return ResponseMsg.SUCCESS_MESSAGE;
+        } else {
+            return ResponseMsg.FAIL_MESSAGE;
+        }
     }
 }

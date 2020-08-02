@@ -17,6 +17,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -129,13 +130,14 @@ public class CompanyServiceTest {
 
     @Test
     void should_return_company_when_delete_company_given_company_id() {
-////        given
-//        Integer companyID = 1;
-//        doAnswer(invocation -> null).when(companyRepository).deleteById(companyID);
-////        when
-//        given(companyRepository.findById(companyID)).willReturn(companyInfo);
-//        Company company = companyService.deleteCompanyByCompanyID(companyID);
-////        then
-//        assertEquals(companyInfo, company);
+//        given
+        Integer companyID = 1;
+        String message = "DELETE_SUCCESS";
+        given(companyRepository.findById(companyID)).willReturn(null);
+        doAnswer(invocation -> null).when(companyRepository).deleteById(companyID);
+//        when
+        String deletedMsg = companyService.deleteCompanyByCompanyID(companyID);
+//        then
+        assertEquals(message, deletedMsg);
     }
 }

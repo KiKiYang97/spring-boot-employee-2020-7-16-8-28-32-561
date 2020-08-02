@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -126,14 +127,16 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void should_return_employee_when_delete_employee_given_employeeID() {
-////        given
-//        int employeeID = 1;
-//        given(employeeRepository.deleteById(employeeID)).willReturn(employee);
-////        when
-//        Employee deletedEmployee = employeeService.deleteEmployeeByemployeeID(employeeID);
-////        then
-//        assertEquals(employee, deletedEmployee);
+    void should_return_message_employee_when_delete_employee_given_employeeID() {
+//        given
+        int employeeID = 1;
+        String message = "DELETE_SUCCESS";
+        given(employeeRepository.findById(employeeID)).willReturn(null);
+        doAnswer(invocation -> null).when(employeeRepository).deleteById(employeeID);
+//        when
+        String deletedMsg = employeeService.deleteEmployeeByemployeeID(employeeID);
+//        then
+        assertEquals(message, deletedMsg);
     }
 
 }
