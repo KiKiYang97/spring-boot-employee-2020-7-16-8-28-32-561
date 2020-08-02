@@ -26,6 +26,9 @@ public class CompanyServiceTest {
     private static CompanyService companyService;
     private List<Company> companies;
     private List<Employee> employees;
+    private Company company;
+    private Company companyInfo;
+
     @BeforeAll
     static void init() {
         companyRepository = mock(CompanyRepository.class);
@@ -39,11 +42,11 @@ public class CompanyServiceTest {
         Employee employee1 = new Employee(1, "kiki", 80, "male", 100d);
         employees.add(employee);
         employees.add(employee1);
-        Company company = new Company(0, "oocl", 2, employees);
-        Company company1 = new Company(1, "ali", 2, employees);
+        company = new Company(0, "oocl", 2, employees);
+        companyInfo = new Company(1, "ali", 2, employees);
         companies = new ArrayList<>();
         companies.add(company);
-        companies.add(company1);
+        companies.add(companyInfo);
     }
 
     @Test
@@ -93,5 +96,15 @@ public class CompanyServiceTest {
 //        then
         assertEquals(companies.size(), foundCompanies.size());
         assertIterableEquals(companies, foundCompanies);
+    }
+
+    @Test
+    void should_return_company_when_add_company_given_company() {
+//        given
+        given(companyRepository.save(company)).willReturn(company);
+//        when
+        Company createdCompany = companyService.addCompany(company);
+//        then
+        assertEquals(company, createdCompany);
     }
 }

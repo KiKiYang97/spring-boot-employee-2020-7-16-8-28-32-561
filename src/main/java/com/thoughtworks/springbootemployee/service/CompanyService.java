@@ -34,4 +34,8 @@ public class CompanyService {
     public List<Company> getCompaniesByPageAndPageSize(int page, int pageSize) {
         return companyRepository.findAll(page, pageSize);
     }
+
+    public Company addCompany(Company company) {
+        return companyRepository.save(company);
+    }
 }

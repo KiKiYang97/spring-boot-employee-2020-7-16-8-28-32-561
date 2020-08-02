@@ -27,4 +27,8 @@ public class CompanyRepository {
     public List<Company> findAll(int page, int pageSize) {
         return null;
     }
+
+    public Company save(Company company) {
+        return null;
+    }
 }
