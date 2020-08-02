@@ -13,6 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 
 /**
@@ -77,7 +78,7 @@ public class CompanyServiceTest {
     @Test
     void should_get_all_employees_when_get_employees_given_company_id() {
 //        given
-        int companyId = 1;
+        Integer companyId = 1;
         given(companyRepository.findEmployeesById(companyId)).willReturn(employees);
 //        when
         List<Employee> foundEmployees = companyService.getEmployeesByCompanyId(companyId);
@@ -88,8 +89,8 @@ public class CompanyServiceTest {
     @Test
     void should_return_companies_when_get_companies_given_page_and_page_size() {
 //        given
-        int page = 1;
-        int pageSize = 2;
+        Integer page = 1;
+        Integer pageSize = 2;
         given(companyRepository.findAll(page, pageSize)).willReturn(companies);
 //        when
         List<Company> foundCompanies = companyService.getCompaniesByPageAndPageSize(page, pageSize);
@@ -111,7 +112,7 @@ public class CompanyServiceTest {
     @Test
     void should_return_updated_company_when_update_company_given_company_id_and_company_info() {
 //        given
-        int companyId = 1;
+        Integer companyId = 1;
         given(companyRepository.save(company)).willReturn(companyInfo);
         given(companyRepository.findById(companyId)).willReturn(company);
 //        when
@@ -120,4 +121,15 @@ public class CompanyServiceTest {
         assertEquals(companyInfo, updatedCompany);
     }
 
+    @Test
+    void should_return_company_when_delete_company_given_company_id() {
+//        given
+        Integer companyID = 1;
+        doAnswer(invocation -> null).when(companyRepository).deleteById(companyID);
+//        when
+        given(companyRepository.findById(companyID)).willReturn(companyInfo);
+        Company company = companyService.deleteCompanyByCompanyID(companyID);
+//        then
+        assertEquals(companyInfo, company);
+    }
 }

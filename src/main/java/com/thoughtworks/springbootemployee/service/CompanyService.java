@@ -28,11 +28,11 @@ public class CompanyService {
         return companyRepository.findById(companyId);
     }
 
-    public List<Employee> getEmployeesByCompanyId(int companyId) {
+    public List<Employee> getEmployeesByCompanyId(Integer companyId) {
         return companyRepository.findEmployeesById(companyId);
     }
 
-    public List<Company> getCompaniesByPageAndPageSize(int page, int pageSize) {
+    public List<Company> getCompaniesByPageAndPageSize(Integer page, Integer pageSize) {
         return companyRepository.findAll(page, pageSize);
     }
 
@@ -40,9 +40,15 @@ public class CompanyService {
         return companyRepository.save(company);
     }
 
-    public Company updateCompany(int companyId, Company companyInfo) {
+    public Company updateCompany(Integer companyId, Company companyInfo) {
         Company company = companyRepository.findById(companyId);
         BeanUtils.copyProperties(company, companyInfo);
         return companyRepository.save(company);
+    }
+
+    public Company deleteCompanyByCompanyID(Integer companyID) {
+        final Company company = companyRepository.findById(companyID);
+        companyRepository.deleteById(companyID);
+        return company;
     }
 }

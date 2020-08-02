@@ -31,4 +31,7 @@ public class CompanyRepository {
     public Company save(Company company) {
         return null;
     }
+
+    public void deleteById(int companyID) {
+    }
 }
