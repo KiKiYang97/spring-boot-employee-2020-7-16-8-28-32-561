@@ -3,6 +3,8 @@ package com.thoughtworks.springbootemployee.repository;
 import com.thoughtworks.springbootemployee.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
  * @Author Dunka
  * @Description EmployeeRepository
@@ -10,4 +12,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @ClassName EmployeeRepository
  */
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+    List<Employee> findEmployeesByGender(String gender);
 }

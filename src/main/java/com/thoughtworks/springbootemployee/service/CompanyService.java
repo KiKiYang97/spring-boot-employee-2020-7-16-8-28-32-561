@@ -4,6 +4,8 @@ import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -25,15 +27,15 @@ public class CompanyService {
     }
 
     public Company getCompanyByCompanyId(Integer companyId) {
-        return companyRepository.findById(companyId);
+        return companyRepository.findById(companyId).orElse(null);
     }
 
     public List<Employee> getEmployeesByCompanyId(Integer companyId) {
         return companyRepository.findEmployeesById(companyId);
     }
 
-    public List<Company> getCompaniesByPageAndPageSize(Integer page, Integer pageSize) {
-        return companyRepository.findAll(page, pageSize);
+    public Page<Company> getCompaniesByPageAndPageSize(Integer page, Integer pageSize) {
+        return companyRepository.findAll(PageRequest.of(page, pageSize));
     }
 
     public Company addCompany(Company company) {
@@ -41,14 +43,15 @@ public class CompanyService {
     }
 
     public Company updateCompany(Integer companyId, Company companyInfo) {
-        Company company = companyRepository.findById(companyId);
+        Company company = companyRepository.findById(companyId).orElse(null);
         BeanUtils.copyProperties(company, companyInfo);
         return companyRepository.save(company);
     }
 
     public Company deleteCompanyByCompanyID(Integer companyID) {
-        final Company company = companyRepository.findById(companyID);
-        companyRepository.deleteById(companyID);
-        return company;
+//        final Company company = companyRepository.findById(companyID);
+//        companyRepository.deleteById(companyID);
+//        return company;
+        return null;
     }
 }

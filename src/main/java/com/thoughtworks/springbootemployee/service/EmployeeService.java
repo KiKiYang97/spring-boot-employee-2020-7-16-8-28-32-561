@@ -3,6 +3,8 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 
@@ -24,11 +26,11 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeByEmployeeId(Integer id) {
-        return employeeRepository.findById(id);
+        return employeeRepository.findById(id).orElse(null);
     }
 
-    public List<Employee> getEmployeeByPageAndPageSize(int page, int pageSize) {
-        return employeeRepository.getEmployeeByPageAndPageSize(page, pageSize);
+    public Page<Employee> getEmployeeByPageAndPageSize(int page, int pageSize) {
+        return employeeRepository.findAll(PageRequest.of(page, pageSize));
     }
 
     public List<Employee> getEmployeeByGender(String gender) {
@@ -40,12 +42,19 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(Integer id, Employee employeeInfo) {
-        Employee employee = employeeRepository.findById(id);
+        Employee employee = employeeRepository.findById(id).orElse(null);
         BeanUtils.copyProperties(employee, employeeInfo);
         return employeeRepository.save(employeeInfo);
     }
 
-    public Employee deleteEmployeeByemployeeID(int employeeID) {
-        return employeeRepository.deleteById(employeeID);
+    public Employee deleteEmployeeByemployeeID(Integer employeeID) {
+        Employee employee = employeeRepository.findById(employeeID).orElse(null);
+//        employeeRepository.deleteById(employeeID);
+//        if (employeeRepository.findById(employeeID).orElse(null)==null){
+//            return employee;
+//        }else{
+//
+//        }
+        return employee;
     }
 }
