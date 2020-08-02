@@ -106,6 +106,7 @@ public class EmployeeServiceTest {
     void should_return_new_employee_when_add_employee_given_employee() {
 //        given
         given(employeeRepository.save(employee)).willReturn(employee);
+
 //        when
         Employee createdEmployee = employeeService.addEmployee(employee);
 //        then
@@ -131,10 +132,11 @@ public class EmployeeServiceTest {
 //        given
         int employeeID = 1;
         String message = "DELETE_SUCCESS";
-        given(employeeRepository.findById(employeeID)).willReturn(null);
+        Optional<Employee> employeeOption = Optional.ofNullable(null);
+        given(employeeRepository.findById(employeeID)).willReturn(employeeOption);
         doAnswer(invocation -> null).when(employeeRepository).deleteById(employeeID);
 //        when
-        String deletedMsg = employeeService.deleteEmployeeByemployeeID(employeeID);
+        String deletedMsg = employeeService.deleteEmployeeByEmployeeID(employeeID);
 //        then
         assertEquals(message, deletedMsg);
     }

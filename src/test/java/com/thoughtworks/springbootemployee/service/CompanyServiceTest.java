@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,25 +29,28 @@ import static org.mockito.Mockito.mock;
  */
 public class CompanyServiceTest {
     private static CompanyRepository companyRepository;
+    private static EmployeeRepository employeeRepository;
     private static CompanyService companyService;
+    private static EmployeeService employeeService;
     private List<Company> companies;
     private List<Employee> employees;
     private Company company;
     private Company companyInfo;
-
+    private Employee employee;
     @BeforeAll
     static void init() {
         companyRepository = mock(CompanyRepository.class);
-        companyService = new CompanyService(companyRepository);
+        employeeRepository = mock(EmployeeRepository.class);
+        companyService = new CompanyService(companyRepository, employeeRepository);
     }
 
     @BeforeEach
     void initData() {
         employees = new ArrayList<>();
-        Employee employee = new Employee(0, "kiki", 18, "female", 99999d);
-        Employee employee1 = new Employee(1, "kiki", 80, "male", 100d);
+        employee = new Employee(0, "kiki", 18, "female", 99999d);
+//        Employee employee1 = new Employee(1, "kiki", 80, "male", 100d);
         employees.add(employee);
-        employees.add(employee1);
+//        employees.add(employee1);
         company = new Company(0, "oocl", 2, employees);
         companyInfo = new Company(1, "ali", 2, employees);
         companies = new ArrayList<>();
@@ -84,7 +88,7 @@ public class CompanyServiceTest {
     void should_get_all_employees_when_get_employees_given_company_id() {
 //        given
         Integer companyId = 1;
-        given(companyRepository.findEmployeesById(companyId)).willReturn(employees);
+        given(employeeRepository.findByCompanyId(companyId)).willReturn(employees);
 //        when
         List<Employee> foundEmployees = companyService.getEmployeesByCompanyId(companyId);
 //        then
@@ -109,6 +113,10 @@ public class CompanyServiceTest {
     void should_return_company_when_add_company_given_company() {
 //        given
         given(companyRepository.save(company)).willReturn(company);
+        employee.setCompanyId(company.getId());
+        given(employeeRepository.save(employee)).willReturn(employee);
+        Optional<Company> companyOptional = Optional.ofNullable(company);
+        given(companyRepository.findById(company.getId())).willReturn(companyOptional);
 //        when
         Company createdCompany = companyService.addCompany(company);
 //        then
@@ -133,7 +141,8 @@ public class CompanyServiceTest {
 //        given
         Integer companyID = 1;
         String message = "DELETE_SUCCESS";
-        given(companyRepository.findById(companyID)).willReturn(null);
+        Optional<Company> companyOptional = Optional.ofNullable(null);
+        given(companyRepository.findById(companyID)).willReturn(companyOptional);
         doAnswer(invocation -> null).when(companyRepository).deleteById(companyID);
 //        when
         String deletedMsg = companyService.deleteCompanyByCompanyID(companyID);
