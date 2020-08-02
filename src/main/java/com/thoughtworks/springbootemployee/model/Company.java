@@ -2,7 +2,9 @@ package com.thoughtworks.springbootemployee.model;
 
 import lombok.Data;
 
+import javax.persistence.*;
 import java.util.List;
+
 /**
  * @Author Dunka
  * @Description Company
@@ -10,10 +12,14 @@ import java.util.List;
  * @ClassName Company
  */
 @Data
+@Entity
 public class Company {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private String companyName;
     private Integer employeeNumber;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "companyId")
     private List<Employee> employees;
 
     public Company(Integer id, String companyName, Integer employeeNumber, List<Employee> employees) {
