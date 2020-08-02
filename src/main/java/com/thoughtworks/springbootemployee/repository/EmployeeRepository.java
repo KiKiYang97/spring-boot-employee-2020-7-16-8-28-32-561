@@ -14,4 +14,8 @@ public class EmployeeRepository {
     public List<Employee> findAll() {
         return null;
     }
+
+    public Employee findById(Integer id) {
+        return null;
+    }
 }
