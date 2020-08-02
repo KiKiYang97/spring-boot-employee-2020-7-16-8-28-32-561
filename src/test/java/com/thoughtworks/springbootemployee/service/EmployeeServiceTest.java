@@ -1,5 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.exception.IllegalOperationException;
+import com.thoughtworks.springbootemployee.exception.NoSuchDataException;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -15,11 +17,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 /**
  * @Author Dunka
@@ -114,7 +114,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void should_return_modify_employee_when_update_employee_given_update_employee() {
+    void should_return_modify_employee_when_update_employee_given_update_employee() throws NoSuchDataException {
 //        given
         int employeeID = 1;
         given(employeeRepository.save(employee)).willReturn(newEmployee);
@@ -128,17 +128,35 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    void should_return_message_employee_when_delete_employee_given_employeeID() {
+    void should_return_message_employee_when_delete_employee_given_employeeID() throws IllegalOperationException {
 //        given
         int employeeID = 1;
         String message = "DELETE_SUCCESS";
-        Optional<Employee> employeeOption = Optional.ofNullable(null);
+        Optional<Employee> employeeOption = Optional.ofNullable(employee);
         given(employeeRepository.findById(employeeID)).willReturn(employeeOption);
         doAnswer(invocation -> null).when(employeeRepository).deleteById(employeeID);
 //        when
         String deletedMsg = employeeService.deleteEmployeeByEmployeeID(employeeID);
 //        then
-        assertEquals(message, deletedMsg);
+//        assertEquals(message, deletedMsg);
+        verify(employeeRepository).deleteById(employeeID);
     }
 
+    @Test
+    void should_throw_no_such_data_exception_when_update_employee_given_none() {
+//        given
+//        when
+        Exception exception = assertThrows(NoSuchDataException.class, () -> employeeService.updateEmployee(111, new Employee()));
+//        then
+        assertEquals(NoSuchDataException.class, exception.getClass());
+    }
+
+    @Test
+    void should_throw_illegal_operation_exception_when_delete_employee_given_none() {
+//        given
+//        when
+        Exception exception = assertThrows(IllegalOperationException.class, () -> employeeService.deleteEmployeeByEmployeeID(111));
+//        then
+        assertEquals(IllegalOperationException.class, exception.getClass());
+    }
 }

@@ -1,5 +1,7 @@
 package com.thoughtworks.springbootemployee.service;
 
+import com.thoughtworks.springbootemployee.exception.IllegalOperationException;
+import com.thoughtworks.springbootemployee.exception.NoSuchDataException;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.util.ResponseMsg;
@@ -44,18 +46,24 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public Employee updateEmployee(Integer id, Employee employeeInfo) {
+    public Employee updateEmployee(Integer id, Employee employeeInfo) throws NoSuchDataException {
         Employee oldEmployee = null;
         employeeInfo.setId(id);
         if (employeeRepository.findById(id).isPresent()) {
             oldEmployee = employeeRepository.findById(id).get();
             BeanUtils.copyProperties(employeeInfo, oldEmployee);
+        } else {
+            throw new NoSuchDataException();
         }
         return employeeRepository.save(oldEmployee);
     }
 
-    public String deleteEmployeeByEmployeeID(Integer employeeID) {
-        employeeRepository.deleteById(employeeID);
+    public String deleteEmployeeByEmployeeID(Integer employeeID) throws IllegalOperationException {
+        if (employeeRepository.findById(employeeID).isPresent()) {
+            employeeRepository.deleteById(employeeID);
+        } else {
+            throw new IllegalOperationException();
+        }
         if (!employeeRepository.findById(employeeID).isPresent()) {
             return ResponseMsg.SUCCESS_MESSAGE;
         } else {
