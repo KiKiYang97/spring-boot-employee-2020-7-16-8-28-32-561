@@ -82,4 +82,16 @@ public class CompanyServiceTest {
         assertIterableEquals(employees, foundEmployees);
     }
 
+    @Test
+    void should_return_companies_when_get_companies_given_page_and_page_size() {
+//        given
+        int page = 1;
+        int pageSize = 2;
+        given(companyRepository.findAll(page, pageSize)).willReturn(companies);
+//        when
+        List<Company> foundCompanies = companyService.getCompaniesByPageAndPageSize(page, pageSize);
+//        then
+        assertEquals(companies.size(), foundCompanies.size());
+        assertIterableEquals(companies, foundCompanies);
+    }
 }

@@ -23,4 +23,8 @@ public class CompanyRepository {
     public List<Employee> findEmployeesById(int companyId) {
         return null;
     }
+
+    public List<Company> findAll(int page, int pageSize) {
+        return null;
+    }
 }
