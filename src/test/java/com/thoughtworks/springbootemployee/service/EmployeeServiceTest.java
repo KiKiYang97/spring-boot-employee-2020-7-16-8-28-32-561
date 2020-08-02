@@ -56,7 +56,6 @@ public class EmployeeServiceTest {
     void should_return_employee_when_get_employee_given_employee_id() {
 //        given
         given(employeeRepository.findById(employee.getId())).willReturn(employee);
-
 //        when
         Employee findEmployee = employeeService.getEmployeeByEmployeeId(employee.getId());
 //        then
