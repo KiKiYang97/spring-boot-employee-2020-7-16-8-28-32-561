@@ -37,7 +37,7 @@ public class EmployeeServiceTest {
     @BeforeEach
     void initData() {
         employees = new ArrayList<>();
-        Employee newEmployee = new Employee(0, "kiki", 18, "female", 99999);
+        Employee newEmployee = new Employee(0, "kiki", 18, "female", 99999d);
         employee = new Employee(1, "kiki", 80, "male", 100d);
         employees.add(employee);
         employees.add(newEmployee);
