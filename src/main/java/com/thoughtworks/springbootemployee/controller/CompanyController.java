@@ -41,7 +41,6 @@ public class CompanyController {
         return companyService.getCompaniesByPageAndPageSize(page, pageSize);
     }
 
-
     @PostMapping
     public Company addCompany(@RequestBody Company company) {
         return companyService.addCompany(company);
@@ -54,6 +53,6 @@ public class CompanyController {
 
     @DeleteMapping("/{id}")
     public String deleteAllEmployeesByCompanyId(@PathVariable Integer id) {
-        return deleteAllEmployeesByCompanyId(id);
+        return companyService.deleteCompanyByCompanyID(id);
     }
 }

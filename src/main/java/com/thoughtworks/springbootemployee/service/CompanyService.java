@@ -3,8 +3,10 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
+import com.thoughtworks.springbootemployee.repository.EmployeeRepository;
 import com.thoughtworks.springbootemployee.util.ResponseMsg;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,8 @@ import java.util.List;
 @Service
 public class CompanyService {
     private final CompanyRepository companyRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     public CompanyService(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
@@ -34,8 +38,7 @@ public class CompanyService {
     }
 
     public List<Employee> getEmployeesByCompanyId(Integer companyId) {
-        Company company = companyRepository.findById(companyId).orElse(null);
-        return company.getEmployees();
+        return employeeRepository.findByCompanyId(companyId);
     }
 
     public Page<Company> getCompaniesByPageAndPageSize(Integer page, Integer pageSize) {
@@ -43,18 +46,29 @@ public class CompanyService {
     }
 
     public Company addCompany(Company company) {
-        return companyRepository.save(company);
+        Integer count = company.getEmployees().size();
+        company.setEmployeeNumber(count);
+        companyRepository.save(company);
+        company.getEmployees().forEach(employee -> {
+            employee.setCompanyId(company.getId());
+            employeeRepository.save(employee);
+        });
+        return companyRepository.findById(company.getId()).orElse(null);
     }
 
     public Company updateCompany(Integer companyId, Company companyInfo) {
-        Company company = companyRepository.findById(companyId).orElse(null);
-        BeanUtils.copyProperties(company, companyInfo);
-        return companyRepository.save(company);
+        Company oldCompany = null;
+        companyInfo.setId(companyId);
+        if (companyRepository.findById(companyId).isPresent()) {
+            oldCompany = companyRepository.findById(companyId).get();
+        }
+        BeanUtils.copyProperties(companyInfo, oldCompany);
+        return companyRepository.save(oldCompany);
     }
 
     public String deleteCompanyByCompanyID(Integer companyID) {
         companyRepository.deleteById(companyID);
-        if (companyRepository.findById(companyID) == null) {
+        if (!companyRepository.findById(companyID).isPresent()) {
             return ResponseMsg.SUCCESS_MESSAGE;
         } else {
             return ResponseMsg.FAIL_MESSAGE;

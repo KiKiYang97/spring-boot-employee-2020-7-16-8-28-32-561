@@ -22,6 +22,10 @@ public class Company {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "companyId")
     private List<Employee> employees;
 
+    public Company() {
+
+    }
+
     public Company(Integer id, String companyName, Integer employeeNumber, List<Employee> employees) {
         this.id = id;
         this.companyName = companyName;
