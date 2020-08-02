@@ -25,4 +25,8 @@ public class EmployeeService {
     public Employee getEmployeeByEmployeeId(Integer id) {
         return employeeRepository.findById(id);
     }
+
+    public List<Employee> getEmployeeByPageAndPageSize(int page, int pageSize) {
+        return null;
+    }
 }

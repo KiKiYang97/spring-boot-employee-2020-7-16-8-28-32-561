@@ -37,8 +37,10 @@ public class EmployeeServiceTest {
     @BeforeEach
     void initData() {
         employees = new ArrayList<>();
+        Employee newEmployee = new Employee(0, "kiki", 18, "female", 99999);
         employee = new Employee(1, "kiki", 80, "male", 100d);
         employees.add(employee);
+        employees.add(newEmployee);
     }
 
     @Test
@@ -60,5 +62,17 @@ public class EmployeeServiceTest {
         Employee findEmployee = employeeService.getEmployeeByEmployeeId(employee.getId());
 //        then
         assertEquals(employee, findEmployee);
+    }
+
+    @Test
+    void should_return_employees_when_get_employees_given_page_and_page_size() {
+//        given
+        int page = 1;
+        int pageSize = 2;
+        given(employeeRepository.getEmployeeByPageAndPageSize(page, pageSize)).willReturn(employees);
+//        when
+        List<Employee> pageEmployees = employeeService.getEmployeeByPageAndPageSize(page, pageSize);
+//        then
+        assertIterableEquals(employees, pageEmployees);
     }
 }

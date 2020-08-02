@@ -18,4 +18,8 @@ public class EmployeeRepository {
     public Employee findById(Integer id) {
         return null;
     }
+
+    public List<Employee> getEmployeeByPageAndPageSize(int page, int pageSize) {
+        return null;
+    }
 }
