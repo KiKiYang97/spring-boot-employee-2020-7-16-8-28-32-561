@@ -107,4 +107,17 @@ public class CompanyServiceTest {
 //        then
         assertEquals(company, createdCompany);
     }
+
+    @Test
+    void should_return_updated_company_when_update_company_given_company_id_and_company_info() {
+//        given
+        int companyId = 1;
+        given(companyRepository.save(company)).willReturn(companyInfo);
+        given(companyRepository.findById(companyId)).willReturn(company);
+//        when
+        Company updatedCompany = companyService.updateCompany(companyId, companyInfo);
+//        then
+        assertEquals(companyInfo, updatedCompany);
+    }
+
 }

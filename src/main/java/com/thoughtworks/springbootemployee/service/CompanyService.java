@@ -3,6 +3,7 @@ package com.thoughtworks.springbootemployee.service;
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
 import com.thoughtworks.springbootemployee.repository.CompanyRepository;
+import org.springframework.beans.BeanUtils;
 
 import java.util.List;
 
@@ -36,6 +37,12 @@ public class CompanyService {
     }
 
     public Company addCompany(Company company) {
+        return companyRepository.save(company);
+    }
+
+    public Company updateCompany(int companyId, Company companyInfo) {
+        Company company = companyRepository.findById(companyId);
+        BeanUtils.copyProperties(company, companyInfo);
         return companyRepository.save(company);
     }
 }
