@@ -7,6 +7,7 @@ import com.thoughtworks.springbootemployee.util.ResponseMsg;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * @Date 20:10   2020/8/2
  * @ClassName CompanyService
  */
+@Service
 public class CompanyService {
     private final CompanyRepository companyRepository;
 
