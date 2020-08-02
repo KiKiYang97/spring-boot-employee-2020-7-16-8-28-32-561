@@ -45,14 +45,18 @@ public class EmployeeService {
     }
 
     public Employee updateEmployee(Integer id, Employee employeeInfo) {
-        Employee employee = employeeRepository.findById(id).orElse(null);
-        BeanUtils.copyProperties(employee, employeeInfo);
-        return employeeRepository.save(employeeInfo);
+        Employee oldEmployee = null;
+        employeeInfo.setId(id);
+        if (employeeRepository.findById(id).isPresent()) {
+            oldEmployee = employeeRepository.findById(id).get();
+            BeanUtils.copyProperties(employeeInfo, oldEmployee);
+        }
+        return employeeRepository.save(oldEmployee);
     }
 
-    public String deleteEmployeeByemployeeID(Integer employeeID) {
+    public String deleteEmployeeByEmployeeID(Integer employeeID) {
         employeeRepository.deleteById(employeeID);
-        if (employeeRepository.findById(employeeID) == null) {
+        if (!employeeRepository.findById(employeeID).isPresent()) {
             return ResponseMsg.SUCCESS_MESSAGE;
         } else {
             return ResponseMsg.FAIL_MESSAGE;
