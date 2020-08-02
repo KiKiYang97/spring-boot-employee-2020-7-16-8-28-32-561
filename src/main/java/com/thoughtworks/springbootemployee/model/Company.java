@@ -11,4 +11,10 @@ public class Company {
     private Integer employeeNumber;
     private List<Employee> employees;
 
+    public Company(Integer id, String companyName, Integer employeeNumber, List<Employee> employees) {
+        this.id = id;
+        this.companyName = companyName;
+        this.employeeNumber = employeeNumber;
+        this.employees = employees;
+    }
 }
