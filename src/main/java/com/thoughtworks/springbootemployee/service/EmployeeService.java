@@ -44,4 +44,8 @@ public class EmployeeService {
         BeanUtils.copyProperties(employee, employeeInfo);
         return employeeRepository.save(employeeInfo);
     }
+
+    public Employee deleteEmployeeByemployeeID(int employeeID) {
+        return employeeRepository.deleteById(employeeID);
+    }
 }

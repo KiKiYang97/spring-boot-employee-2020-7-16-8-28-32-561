@@ -30,4 +30,8 @@ public class EmployeeRepository {
     public Employee save(Employee employee) {
         return null;
     }
+
+    public Employee deleteById(int employeeID) {
+        return null;
+    }
 }

@@ -115,4 +115,16 @@ public class EmployeeServiceTest {
 //        verify(employeeRepository).save(updateEmployee);
         assertEquals(newEmployee, updateEmployee);
     }
+
+    @Test
+    void should_return_employee_when_delete_employee_given_employeeID() {
+//        given
+        int employeeID = 1;
+        given(employeeRepository.deleteById(employeeID)).willReturn(employee);
+//        when
+        Employee deletedEmployee = employeeService.deleteEmployeeByemployeeID(employeeID);
+//        then
+        assertEquals(employee, deletedEmployee);
+    }
+
 }
