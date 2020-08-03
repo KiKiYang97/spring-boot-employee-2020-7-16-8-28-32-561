@@ -30,4 +30,4 @@ public class Company {
         this.employeeNumber = employeeNumber;
         this.employees = employees;
     }
-}s
+}
