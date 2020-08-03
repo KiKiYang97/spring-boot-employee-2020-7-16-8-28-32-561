@@ -7,7 +7,7 @@ package com.thoughtworks.springbootemployee.exception;
  * @ClassName ExceptionMessage
  */
 public enum ExceptionMessage {
-    NO_SUCH_DATA, ILLEGAL_OPERATION;
+    NO_SUCH_DATA("NO_SUCH_DATA"), ILLEGAL_OPERATION("ILLEGAL_OPERATION");
     private String message;
 
     ExceptionMessage() {

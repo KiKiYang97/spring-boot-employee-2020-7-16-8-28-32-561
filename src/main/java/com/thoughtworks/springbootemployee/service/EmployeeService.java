@@ -49,6 +49,8 @@ public class EmployeeService {
     public Employee updateEmployee(Integer id, Employee employeeInfo) throws NoSuchDataException {
         Employee oldEmployee = null;
         employeeInfo.setId(id);
+//        todo
+//        todo illegal
         if (employeeRepository.findById(id).isPresent()) {
             oldEmployee = employeeRepository.findById(id).get();
             BeanUtils.copyProperties(employeeInfo, oldEmployee);
@@ -64,6 +66,7 @@ public class EmployeeService {
         } else {
             throw new IllegalOperationException();
         }
+//        todo
         if (!employeeRepository.findById(employeeID).isPresent()) {
             return ResponseMsg.SUCCESS_MESSAGE;
         } else {

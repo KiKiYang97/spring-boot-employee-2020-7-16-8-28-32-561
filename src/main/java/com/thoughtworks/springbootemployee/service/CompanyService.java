@@ -43,7 +43,7 @@ public class CompanyService {
     public Page<Company> getCompaniesByPageAndPageSize(Integer page, Integer pageSize) {
         return companyRepository.findAll(PageRequest.of(page, pageSize));
     }
-
+//todo shiwu  exception
     public Company addCompany(Company company) {
         Integer count = company.getEmployees().size();
         company.setEmployeeNumber(count);

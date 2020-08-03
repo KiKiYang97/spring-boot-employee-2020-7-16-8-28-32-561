@@ -49,11 +49,19 @@ public class EmployIntegrationTest {
     @BeforeEach
     void initData() {
         employee = new Employee(1, "kiki", 80, "female", 1000d);
-//        Employee employee1 = new Employee(2, "lili", 80, "female", 1000d);
+        Employee employee1 = new Employee(2, "lili", 80, "female", 1000d);
         employees = new ArrayList<>();
-//        employees.add(employee1);
-//        employees.add(employee);
+        employees.add(employee1);
+        employees.add(employee);
         company = new Company(1, "oocl", 2888, employees);
+        String employeeInfo = " {\n" +
+                "            \"id\": 1,\n" +
+                "            \"name\": \"kiki\",\n" +
+                "            \"age\": 81,\n" +
+                "            \"gender\": \"female\",\n" +
+                "            \"salary\": 1,\n" +
+                "            \"companyId\": " + company.getId() + "\n" +
+                "}";
     }
 
     @Test
@@ -74,4 +82,9 @@ public class EmployIntegrationTest {
 //        then
     }
 
+    @Test
+    void should_return_employee_when_hit_post_employee_end_point_given_employee() {
+        companyRepository.save(company);
+
+    }
 }

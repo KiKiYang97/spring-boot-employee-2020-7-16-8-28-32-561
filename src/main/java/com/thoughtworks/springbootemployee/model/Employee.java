@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +15,7 @@ import javax.persistence.Id;
  * @ClassName Employee
  */
 @Data
+@NoArgsConstructor
 @Entity
 public class Employee {
     @Id
@@ -25,8 +27,6 @@ public class Employee {
     private Double salary;
     private Integer companyId;
 
-    public Employee() {
-    }
 
     public Employee(Integer id, String name, Integer age, String gender, Double salary) {
         this.id = id;

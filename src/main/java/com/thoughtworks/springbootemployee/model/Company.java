@@ -1,6 +1,7 @@
 package com.thoughtworks.springbootemployee.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  * @ClassName Company
  */
 @Data
+@NoArgsConstructor
 @Entity
 public class Company {
     @Id
@@ -22,14 +24,10 @@ public class Company {
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE, mappedBy = "companyId")
     private List<Employee> employees;
 
-    public Company() {
-
-    }
-
     public Company(Integer id, String companyName, Integer employeeNumber, List<Employee> employees) {
         this.id = id;
         this.companyName = companyName;
         this.employeeNumber = employeeNumber;
         this.employees = employees;
     }
-}
+}s
