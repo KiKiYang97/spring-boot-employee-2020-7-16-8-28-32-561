@@ -2,86 +2,57 @@ package com.thoughtworks.springbootemployee.controller;
 
 import com.thoughtworks.springbootemployee.model.Company;
 import com.thoughtworks.springbootemployee.model.Employee;
+import com.thoughtworks.springbootemployee.service.CompanyService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @Author Dunka
+ * @Description CompanyController
+ * @Date 23:17   2020/7/28
+ * @ClassName CompanyController
+ */
 @RestController
 @RequestMapping("/companies")
 public class CompanyController {
+    @Autowired
+    private CompanyService companyService;
 
     @GetMapping
     public List<Company> getAllCompanies() {
-        List<Company> companies = new ArrayList<>();
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(4, "alibaba1", 20, "male", 6000));
-        employees.add(new Employee(11, "tengxun2", 19, "female", 7000));
-        employees.add(new Employee(6, "alibaba3", 19, "male", 8000));
-        companies.add(new Company(1, "alibaba", 3, employees));
-        return companies;
+        return companyService.findAll();
     }
 
     @GetMapping("/{id}")
-    public Company getCompanyById(@PathVariable int id) {
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(4, "alibaba1", 20, "male", 6000));
-        employees.add(new Employee(11, "tengxun2", 19, "female", 7000));
-        employees.add(new Employee(6, "alibaba3", 19, "male", 8000));
-        return new Company(id, "alibaba", 3, employees);
+    public Company getCompanyById(@PathVariable Integer id) {
+        return companyService.getCompanyByCompanyId(id);
     }
 
     @GetMapping("/{id}/employees")
-    public List<Employee> getEmployeesByCompanyId(@PathVariable int id) {
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(4, "alibaba1", 20, "male", 6000));
-        employees.add(new Employee(11, "tengxun2", 19, "female", 7000));
-        employees.add(new Employee(6, "alibaba3", 19, "male", 8000));
-        Company company = new Company(id);
-        company.setEmployees(employees);
-        return company.getEmployees();
+    public List<Employee> getEmployeesByCompanyId(@PathVariable Integer id) {
+        return companyService.getEmployeesByCompanyId(id);
     }
 
     @GetMapping(params = {"page", "pageSize"})
-    public List<Company> getCompaniesByPageAndPageSize(int page, int pageSize) {
-        List<Company> companies = new ArrayList<>();
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(4, "alibaba1", 20, "male", 6000));
-        employees.add(new Employee(11, "tengxun2", 19, "female", 7000));
-        employees.add(new Employee(6, "alibaba3", 19, "male", 8000));
-        int beginNumber = (page - 1) * pageSize;
-        int endNumber = page * pageSize;
-        for (int i = beginNumber; i < endNumber; i++) {
-            companies.add(new Company(i, "alibaba", 3, employees));
-        }
-        return companies;
+    public Page<Company> getCompaniesByPageAndPageSize(Integer page, Integer pageSize) {
+        return companyService.getCompaniesByPageAndPageSize(page, pageSize);
     }
-
 
     @PostMapping
     public Company addCompany(@RequestBody Company company) {
-        return new Company(company.getId(), company.getCompanyName(), company.getEmployeeNumber(), company.getEmployees());
+        return companyService.addCompany(company);
     }
 
     @PutMapping("/{id}")
-    public Company updateCompany(@PathVariable int id, @RequestBody Company newCompany) {
-        Company oldCompany = new Company(id);
-        oldCompany.setId(newCompany.getId());
-        oldCompany.setEmployees(newCompany.getEmployees());
-        oldCompany.setCompanyName(newCompany.getCompanyName());
-        oldCompany.setEmployeeNumber(newCompany.getEmployeeNumber());
-        return oldCompany;
+    public Company updateCompany(@PathVariable Integer id, @RequestBody Company newCompany) {
+        return companyService.updateCompany(id, newCompany);
     }
 
     @DeleteMapping("/{id}")
-    public Company deleteAllEmployeesByCompanyId(@PathVariable int id) {
-        Company company = new Company(id);
-        List<Employee> employees = new ArrayList<>();
-        employees.add(new Employee(4, "alibaba1", 20, "male", 6000));
-        employees.add(new Employee(11, "tengxun2", 19, "female", 7000));
-        employees.add(new Employee(6, "alibaba3", 19, "male", 8000));
-        company.setEmployees(employees);
-        company.setEmployees(new ArrayList<>());
-        return company;
+    public String deleteAllEmployeesByCompanyId(@PathVariable Integer id) {
+        return companyService.deleteCompanyByCompanyID(id);
     }
 }

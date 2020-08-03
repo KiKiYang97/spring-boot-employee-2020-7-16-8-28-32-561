@@ -1,65 +1,38 @@
 package com.thoughtworks.springbootemployee.model;
 
+import lombok.Data;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+/**
+ * @Author Dunka
+ * @Description Employee
+ * @Date 20:10   2020/8/2
+ * @ClassName Employee
+ */
+@Data
+@Entity
 public class Employee {
-//    todo
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
     private String name;
-    private int age;
+    private Integer age;
     private String gender;
-    private double salary;
+    private Double salary;
+    private Integer companyId;
 
     public Employee() {
     }
 
-    public Employee(int id, String name, int age, String gender, double salary) {
+    public Employee(Integer id, String name, Integer age, String gender, Double salary) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
-        this.salary = salary;
-    }
-
-    public Employee(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(double salary) {
         this.salary = salary;
     }
 }
